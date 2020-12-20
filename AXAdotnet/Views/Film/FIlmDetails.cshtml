@@ -10,6 +10,7 @@
     <br />@Html.LabelFor(m => Model.director, null, new { style = "font-weight: bold" }): @Model.director
     <br />@Html.LabelFor(m => Model.producer, null, new { style = "font-weight: bold" }): @Model.producer
     <br />@Html.LabelFor(m => Model.release_date, null, new { style = "font-weight: bold" }): @Model.release_date.ToShortDateString()
+    @*For species, vehicles, characters, planets could've used api to get for example names of items and show it to user*@
     <br />@Html.LabelFor(m => Model.species, null, new { style = "font-weight: bold" }):
     <br />@String.Join(Environment.NewLine, Model.species)
     <br />@Html.LabelFor(m => Model.vehicles, null, new { style = "font-weight: bold" }):
