@@ -1,0 +1,12 @@
+﻿@model List<AXAdotnet.API.Film>
+@{
+    ViewData["Title"] = "Films";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Films</h1>
+    @foreach (var z in ViewBag.Films)
+    {
+        <a href="/Film/FilmDetails/@z.episode_id">@z.title </a><br />
+    }
+</div>

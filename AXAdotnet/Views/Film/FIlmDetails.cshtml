@@ -1,0 +1,75 @@
+﻿@model AXAdotnet.API.Film
+@{
+    ViewData["Title"] = "Film Details ";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Details</h1>
+    @Html.LabelFor(m => Model.title, null, new { style = "font-weight: bold" }): @Model.title
+    <br />@Html.LabelFor(m => Model.episode_id,null, new { style = "font-weight: bold"}): @Model.episode_id
+    <br />@Html.LabelFor(m => Model.director, null, new { style = "font-weight: bold" }): @Model.director
+    <br />@Html.LabelFor(m => Model.producer, null, new { style = "font-weight: bold" }): @Model.producer
+    <br />@Html.LabelFor(m => Model.release_date, null, new { style = "font-weight: bold" }): @Model.release_date.ToShortDateString()
+    <br />@Html.LabelFor(m => Model.species, null, new { style = "font-weight: bold" }):
+    <br />@String.Join(Environment.NewLine, Model.species)
+    <br />@Html.LabelFor(m => Model.vehicles, null, new { style = "font-weight: bold" }):
+    <br />@String.Join(Environment.NewLine, Model.vehicles)
+    <br />@Html.LabelFor(m => Model.characters, null, new { style = "font-weight: bold" }):
+    <br />@String.Join(Environment.NewLine, Model.characters)
+    <br />@Html.LabelFor(m => Model.planets, null, new { style = "font-weight: bold" }):
+    <br />@String.Join(Environment.NewLine, Model.planets)
+    <br />@Html.LabelFor(m => Model.url, null, new { style = "font-weight: bold" }): @Model.url
+    <br />@Html.LabelFor(m => Model.created, null, new { style = "font-weight: bold" }): @Model.created.ToShortDateString()
+    <br />@Html.LabelFor(m => Model.edited, null, new { style = "font-weight: bold" }): @Model.edited.ToShortDateString()
+    <br />@Html.LabelFor(m => Model.opening_crawl, null, new { style = "font-weight: bold" }): @Html.Raw("<pre>" + Html.Encode(Model.opening_crawl) + "</pre>")
+    <br />
+    <div id="vote">
+        <h1 class="display-4">Your vote:</h1>
+        @Html.Label("Username:", null, new { id = "username" }) @Html.TextBox("user")
+        <br />
+        <button class="vt" id="btn0">0</button>
+        <button class="vt" id="btn1">1</button>
+        <button class="vt" id="btn2">2</button>
+        <button class="vt" id="btn3">3</button>
+        <button class="vt" id="btn4">4</button>
+        <button class="vt" id="btn5">5</button>
+        <button class="vt" id="btn6">6</button>
+        <button class="vt" id="btn7">7</button>
+        <button class="vt" id="btn8">8</button>
+        <button class="vt" id="btn9">9</button>
+        <button class="vt" id="btn10">10</button>
+    </div>
+    <div id="votes">
+        <br />
+        <h1 class="display-4">Votes</h1>
+        @foreach (var vote in ViewBag.Votes)
+        {
+            <label>@vote.Username: @vote.Vote</label><br />
+        }
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"></script>
+<script language="JavaScript" type="text/javascript">
+    $('.vt').click(function () {
+        var id = $(this).attr('id');
+        var vote = id.replace(/^\D+/g, '');
+        var username = document.getElementById("user").value;
+        var episodeid = @Html.Raw(Model.episode_id)
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddVoteToDB","Vote")',
+            data: { "username": username, "vote": vote, "episodeid": episodeid },
+            cache: false,
+            success: (function (d) {
+                window.location.reload()
+            }),
+            error:
+                (function (d) {
+                    alert(d)
+                }),
+        });
+    })
+</script>
